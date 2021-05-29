@@ -16,7 +16,6 @@ __email__ = "alumnos@inove.com.ar"
 __version__ = "1.4"
 
 import csv
-import re
 
 
 def ej1():
@@ -25,7 +24,7 @@ def ej1():
     # con el stock de elementos de ferreteris
     # el diccionario vacio debe llamarse "stock"
     
-    # stock = ....
+    #stock = 
 
     # Luego de crear el diccionario completelo
     # con el siguiente stock:
@@ -39,7 +38,9 @@ def ej1():
 
     # Una vez armado el diccionario imprimirlo en pantalla con print
 
-
+    stock = {"Tornillos": "100", "Tuercas": "150", "Arandelas": "300"}
+    print(stock)
+    
 def ej2():
     print('Ejercicio con diccionarios')
     # Basado en el ejemplo anterior, deseamos tener un stock mes a mes
@@ -84,8 +85,32 @@ def ej2():
     # pero los valores para cada diccionario en cada mes
     # son ingresados por consola
 
+    mes_enero = {"Tornillos": "0", "Tuercas": "0", "Arandelas": "0"}
+    mes_febrero = {"Tornillos": "0", "Tuercas": "0", "Arandelas": "0"}
+    mes_marzo = {"Tornillos": "0", "Tuercas": "0", "Arandelas": "0"}
 
-def eje3():
+    stock_total = []
+    stock_total.append(mes_enero)
+    stock_total.append(mes_febrero)
+    stock_total.append(mes_marzo)
+
+    for i in range (len(stock_total)):
+
+        mes  = stock_total[i]
+        print (f"ingrese el stock del Mes {i+1}")
+           
+        stock_tornillos = int(input("Ingrese la cantidad de Tornillos: \n"))
+        mes["Tornillos"] = stock_tornillos
+
+        stock_tuercas = int(input("Ingrese la cantidad de Tuercas: \n"))
+        mes["Tuercas"] = stock_tuercas
+        
+        stock_arandelas = int(input("Ingrese la cantidad de Arandelas: \n"))
+        mes["Arandelas"] = stock_arandelas
+
+    print(stock_total)
+
+def ej3():
     print('Ejercicio de archivos CSV')
     '''
     Realice un programa que abra el archivo 'stock.csv'
@@ -93,11 +118,22 @@ def eje3():
     de todo el archivo, sumando el stock en cada
     fila del archivo
     '''
-
+    csvfile = open('stock.csv')
+    stock = list(csv.DictReader(csvfile))
+    csvfile.close()
+    
+    stock_tornillos = []
+    for i in range(len(stock)):         
+        datos = stock[i]
+        for k, v in datos.items():
+            if k == "tornillos":
+                stock_tornillos.append(int(v))
+                  
+    print(sum(stock_tornillos))
 
 def ej4():
     print('Ejercicios con archivos CSV')
-    archivo = 'propiedades.csv'
+    archivo = "propiedades.csv"
     '''
     Realice un programa que abra el archivo CSV "propiedades.csv"
     en modo lectura. Recorrar dicho archivo y contar
@@ -105,11 +141,26 @@ def ej4():
     de departamentos de 3 ambientes disponibles.
     Al finalizar el proceso, imprima en pantalla los resultados.
     '''
+    with open(archivo) as csvfile:
+        data = list(csv.DictReader(csvfile))
+    
+    cont_2_amb = 0
+    cont_3_amb = 0
 
+    for i in range (len(data)):
+        columna = data[i]
+        for k,v in columna.items():
+            if (k == "ambientes") and (v == "2"):
+                cont_2_amb += 1
+            elif (k == "ambientes") and (v == "3"):
+                cont_3_amb += 1
+
+    print (f"La cantidad de dptos 2 ambientes es de: {cont_2_amb}")
+    print (f"La cantidad de dptos 3 ambientes es de: {cont_3_amb}")
 
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
     ej1()
-    # ej2()
-    # ej3()
-    # ej4()
+    ej2()
+    ej3()
+    ej4()
